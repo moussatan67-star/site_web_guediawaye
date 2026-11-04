@@ -56,7 +56,9 @@ table {
 }
 
 .hero-section {
-  background: linear-gradient(135deg, rgba(27,122,62,0.95), rgba(252,209,22,0.3));
+  background:
+    linear-gradient(110deg, rgba(8, 50, 27, 0.88), rgba(11, 31, 18, 0.62)),
+    url("../images/mairie.jpg") center 55% / cover no-repeat;
   color: var(--color-white);
   padding-block: clamp(2.5rem, 7vw, 5rem) !important;
 }
@@ -70,18 +72,27 @@ table {
   max-width: 42rem;
 }
 
-.city-hero-image {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 1rem;
-  box-shadow: 0 1rem 2rem rgba(11, 31, 18, 0.2);
+.hero-section .card {
+  color: var(--color-text);
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(3px);
 }
 
-.hero-section figure figcaption {
-  color: rgba(255, 255, 255, 0.85);
+.hero-section .card .list-group-item {
+  color: inherit;
+  background-color: transparent;
+  border-color: rgba(31, 41, 55, 0.15);
+}
+
+.hero-section .btn-outline-primary {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-section .btn-outline-primary:hover {
+  color: var(--color-green);
+  background: var(--color-white);
+  border-color: var(--color-white);
 }
 
 .site-footer {
@@ -92,6 +103,20 @@ table {
 .site-footer a {
   color: #d1fae5;
   text-decoration: none;
+}
+
+.location-map {
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+  border-radius: 0.75rem;
+  background: var(--color-light);
+}
+
+.location-map iframe {
+  display: block;
+  width: 100%;
+  height: clamp(18rem, 45vw, 28rem);
+  border: 0;
 }
 
 .btn-primary {
