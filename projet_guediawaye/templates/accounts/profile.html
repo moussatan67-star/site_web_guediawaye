@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil | Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        {% if request.user.is_authenticated %}
+            <span class="badge text-bg-success mb-2">Espace citoyen</span>
+            <h1>Bonjour {{ request.user.get_full_name|default:request.user.username }}</h1>
+            <p class="lead">Cette page rassemble les informations de votre compte.</p>
+            <div class="row g-4 mt-2">
+                <div class="col-md-6"><div class="p-4 h-100 border rounded"><h2 class="h5">Coordonnées</h2><p class="mb-1"><strong>E-mail :</strong> {{ request.user.email|default:"Non renseigné" }}</p><p class="mb-1"><strong>Téléphone :</strong> {{ request.user.telephone|default:"Non renseigné" }}</p><p class="mb-0"><strong>Commune :</strong> {{ request.user.commune|default:"Non renseignée" }}</p></div></div>
+                <div class="col-md-6"><div class="p-4 h-100 border rounded"><h2 class="h5">Vos démarches</h2><p>Consultez les services disponibles et les informations nécessaires à la préparation de votre dossier.</p><a href="{% url 'services:services_list' %}">Voir les services &rarr;</a></div></div>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4 p-md-5">
+                            <span class="badge text-bg-success mb-2">Espace citoyen</span>
+                            <h1>Mon profil</h1>
+                            <p class="lead">Retrouvez ici les informations associées à votre compte citoyen.</p>
+                            <p>La consultation du profil nécessite une connexion. La page de connexion vous indique l’état actuel de cette fonctionnalité.</p>
+                            <a class="btn btn-primary" href="{% url 'accounts:login' %}">Accéder à la connexion</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

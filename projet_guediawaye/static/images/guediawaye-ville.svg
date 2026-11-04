@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
+  <title id="title">Paysage urbain de Guédiawaye</title>
+  <desc id="description">Illustration ensoleillée d'une ville sénégalaise avec des immeubles, des maisons et des arbres.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8d77a"/>
+      <stop offset="1" stop-color="#f5a66b"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c77c48"/>
+      <stop offset="1" stop-color="#814b35"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <circle cx="950" cy="155" r="72" fill="#fff1b0" opacity=".9"/>
+  <path d="M0 355c156-48 293-44 438 0s295 48 427-1 230-42 335-5v131H0z" fill="#f3bd75" opacity=".75"/>
+  <path d="M0 397c174-41 305-26 448 12s278 25 409-17 230-31 343-1v111H0z" fill="#e99d66"/>
+  <g fill="#f8e5bd" opacity=".8">
+    <path d="M102 164h110v13H102zM122 143h72v13h-72z"/>
+    <path d="M325 206h94v12h-94zM346 185h52v12h-52z"/>
+    <path d="M744 112h118v13H744zM770 91h70v13h-70z"/>
+  </g>
+  <path d="M0 450h1200v225H0z" fill="url(#ground)"/>
+  <g stroke="#704632" stroke-width="8" stroke-linejoin="round">
+    <path fill="#f4d8a4" d="M72 341h146v138H72z"/>
+    <path fill="#d9774c" d="M90 287h107v192H90z"/>
+    <path fill="#f8e7c5" d="M214 372h119v107H214z"/>
+    <path fill="#c95f43" d="M342 296h161v183H342z"/>
+    <path fill="#f5d69c" d="M357 255h132v41H357z"/>
+    <path fill="#e8aa66" d="M535 335h112v144H535z"/>
+    <path fill="#f7e4bf" d="M668 277h143v202H668z"/>
+    <path fill="#bd5941" d="M691 231h98v46h-98z"/>
+    <path fill="#f1ca8c" d="M839 345h126v134H839z"/>
+    <path fill="#d8754e" d="M985 309h153v170H985z"/>
+    <path fill="#f5d69c" d="M1004 266h115v43h-115z"/>
+  </g>
+  <g fill="#67483d">
+    <path d="M106 320h19v26h-19zM150 320h19v26h-19zM106 365h19v26h-19zM150 365h19v26h-19z"/>
+    <path d="M369 317h21v28h-21zM414 317h21v28h-21zM459 317h21v28h-21zM369 363h21v28h-21zM414 363h21v28h-21zM459 363h21v28h-21z"/>
+    <path d="M694 302h21v28h-21zM737 302h21v28h-21zM694 349h21v28h-21zM737 349h21v28h-21zM694 396h21v28h-21zM737 396h21v28h-21z"/>
+    <path d="M1020 337h21v29h-21zM1062 337h21v29h-21zM1104 337h21v29h-21zM1020 384h21v29h-21zM1062 384h21v29h-21zM1104 384h21v29h-21z"/>
+  </g>
+  <g fill="#f3c975" stroke="#704632" stroke-width="7">
+    <path d="M243 402h30v77h-30zM397 408h31v71h-31zM719 419h34v60h-34zM886 402h31v77h-31z"/>
+  </g>
+  <path d="M0 479h1200" stroke="#f8e2b2" stroke-width="9" opacity=".75"/>
+  <path d="M0 547c246-31 397-26 598 0s388 33 602-3v131H0z" fill="#55453d"/>
+  <path d="M504 675l73-128h53l68 128" fill="#80614b"/>
+  <path d="M581 675l18-128h11l15 128" fill="#f4d47e" opacity=".9"/>
+  <g fill="#285a43">
+    <path d="M55 464c-4-48 5-91 22-126 14 35 21 78 17 126z"/>
+    <path d="M45 350c-28-13-40-35-42-59 31 8 52 24 68 48-5-35 3-59 19-80 13 27 16 53 4 83 21-24 47-31 75-30-14 29-39 48-76 54z"/>
+    <path d="M1128 467c-4-50 5-92 22-127 15 35 22 78 18 127z"/>
+    <path d="M1118 351c-28-13-40-35-42-59 31 8 53 24 68 48-5-35 4-59 19-80 13 27 16 53 4 83 21-24 47-31 75-30-14 29-39 48-76 54z"/>
+  </g>
+  <g fill="#fff3d4" opacity=".8">
+    <path d="M250 126q18-20 36 0 18-21 36 0h-72z"/>
+    <path d="M553 167q15-17 30 0 15-18 30 0h-60z"/>
+  </g>
+</svg>

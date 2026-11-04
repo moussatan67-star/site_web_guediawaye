@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} | Mairie de Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <span class="badge text-bg-success mb-2">Demande enregistrée</span>
+                        <h1 class="h2">Votre demande a bien été envoyée</h1>
+                        <p class="lead">La mairie examinera votre demande concernant « {{ demande.service.nom }} ».</p>
+                        <dl class="row">
+                            <dt class="col-sm-4">Numéro de dossier</dt>
+                            <dd class="col-sm-8"><strong>{{ demande.numero_dossier }}</strong></dd>
+                            <dt class="col-sm-4">Date de soumission</dt>
+                            <dd class="col-sm-8">{{ demande.date_creation|date:"d/m/Y à H:i" }}</dd>
+                            <dt class="col-sm-4">Statut</dt>
+                            <dd class="col-sm-8">{{ demande.get_statut_display }}</dd>
+                        </dl>
+                        <p>Conservez votre numéro de dossier pour toute question au sujet de cette démarche.</p>
+                        <a class="btn btn-primary" href="{% url 'services:services_list' %}">Retour aux services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

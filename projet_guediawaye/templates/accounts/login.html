@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion | Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <span class="badge text-bg-success mb-2">Espace citoyen</span>
+                        <h1 class="mb-3">Connexion</h1>
+                        <p class="lead">L’espace citoyen est destiné à centraliser les démarches et les échanges liés à votre compte.</p>
+                        <h2 class="h5 mt-4">Avant de vous connecter</h2>
+                        <ul>
+                            <li>Préparez les identifiants associés à votre compte.</li>
+                            <li>Vérifiez que vos coordonnées sont à jour pour faciliter le suivi de vos demandes.</li>
+                            <li>Pour une démarche précise, consultez d’abord la fiche du <a href="{% url 'services:services_list' %}">service concerné</a>.</li>
+                        </ul>
+                        <div class="alert alert-info mb-0" role="status">
+                            <strong>Connexion indisponible sur cette page.</strong>
+                            <p class="mb-0 mt-1">Le formulaire de connexion n’est pas encore configuré. Vous pouvez toutefois consulter les rubriques publiques du site.</p>
+                        </div>
+                        <div class="d-flex flex-wrap gap-3 mt-4">
+                            <a href="{% url 'services:services_list' %}">Services</a>
+                            <a href="{% url 'actualites:actualites_list' %}">Actualités</a>
+                            <a href="{% url 'core:contact' %}">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

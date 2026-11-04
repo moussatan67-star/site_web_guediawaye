@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Tourisme | Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <span class="badge text-bg-success mb-2">Découvrir la commune</span>
+        <h1>Tourisme et culture</h1>
+        <p class="lead mb-0">Explorez les lieux, les initiatives culturelles et les événements publiés dans l’annuaire touristique.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="h3 mb-4">Lieux à découvrir</h2>
+        <div class="row g-4">
+            {% for lieu in lieux %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="card h-100 shadow-sm border-0">
+                        {% if lieu.photo %}
+                            <img src="{{ lieu.photo.url }}" class="card-img-top" alt="{{ lieu.nom }}">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <p class="text-success small mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
+                            <h3 class="h5">{{ lieu.nom }}</h3>
+                            <p>{{ lieu.description|truncatechars:180 }}</p>
+                            <a class="btn btn-outline-primary mt-auto align-self-start" href="{{ lieu.get_absolute_url }}">Découvrir ce lieu</a>
+                        </div>
+                    </article>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info" role="status">
+                        <h3 class="h5">Les fiches touristiques seront bientôt publiées</h3>
+                        <p class="mb-0">Cette rubrique présentera les lieux de visite et les informations pratiques associées lorsqu’ils auront été ajoutés au catalogue.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <section class="mt-5" aria-labelledby="evenements-a-venir">
+            <h2 class="h3 mb-4" id="evenements-a-venir">Événements culturels à venir</h2>
+            <div class="row g-4">
+                {% for evenement in evenements %}
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card h-100 shadow-sm border-0">
+                            {% if evenement.image %}
+                                <img src="{{ evenement.image.url }}" class="card-img-top" alt="{{ evenement.titre }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h3 class="h5">{{ evenement.titre }}</h3>
+                                {% if evenement.photos.all %}
+                                    <div class="row g-2 mb-3">
+                                        {% for photo in evenement.photos.all %}
+                                            <figure class="col-6 mb-0">
+                                                <img src="{{ photo.image.url }}" class="gallery-image rounded" alt="{{ photo.legende|default:evenement.titre }}">
+                                                {% if photo.legende %}<figcaption class="small text-muted mt-1">{{ photo.legende }}</figcaption>{% endif %}
+                                            </figure>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <p>{{ evenement.description|truncatechars:180 }}</p>
+                                <p class="small text-muted mb-0">
+                                    Du {{ evenement.date_debut|date:"d/m/Y à H:i" }} au {{ evenement.date_fin|date:"d/m/Y à H:i" }}
+                                    {% if evenement.lieu %}<br>Lieu : {{ evenement.lieu.nom }}{% endif %}
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <p class="text-muted mb-0">Les événements seront affichés ici dès leur publication.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+        <div class="row g-4 mt-2">
+            <div class="col-md-4"><div class="p-4 h-100 border rounded"><h2 class="h5">Patrimoine</h2><p class="mb-0">Retrouvez ici les lieux et repères patrimoniaux renseignés par la commune.</p></div></div>
+            <div class="col-md-4"><div class="p-4 h-100 border rounded"><h2 class="h5">Vie culturelle</h2><p class="mb-0">Les manifestations et événements seront affichés sur les fiches lorsqu’ils seront publiés.</p></div></div>
+            <div class="col-md-4"><div class="p-4 h-100 border rounded"><h2 class="h5">Préparer sa visite</h2><p class="mb-0">Consultez les fiches avant votre visite pour vérifier les informations disponibles sur chaque lieu.</p></div></div>
+        </div>
+        <p class="mt-4">Vous cherchez un commerce ou une association ? Consultez également l’<a href="{% url 'annuaire:annuaire_list' %}">annuaire local</a>.</p>
+    </div>
+</section>
+{% endblock %}

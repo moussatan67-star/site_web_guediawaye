@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Annuaire | Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <span class="badge text-bg-success mb-2">Acteurs locaux</span>
+        <h1>Annuaire local</h1>
+        <p class="lead mb-0">Retrouvez les entreprises, commerces, artisans, services et associations référencés dans la commune.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for organisation in organisations %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex flex-column">
+                            {% if organisation.logo %}
+                                <img src="{{ organisation.logo.url }}" class="mb-3" style="max-height: 72px; width: auto; object-fit: contain; object-position: left;" alt="Logo de {{ organisation.nom }}">
+                            {% endif %}
+                            <p class="text-success small mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
+                            <h2 class="h5">{{ organisation.nom }}</h2>
+                            <p>{{ organisation.description|default:"Consultez la fiche pour retrouver les coordonnées et informations disponibles."|truncatechars:160 }}</p>
+                            <a class="btn btn-outline-primary mt-auto align-self-start" href="{{ organisation.get_absolute_url }}">Voir la fiche</a>
+                        </div>
+                    </article>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info" role="status">
+                        <h2 class="h5">L’annuaire se constitue</h2>
+                        <p class="mb-0">Les organisations apparaîtront ici après vérification. La fiche de chaque structure précisera les coordonnées qui auront été fournies.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row g-4 mt-2">
+            <div class="col-md-6"><div class="p-4 h-100 border rounded"><h2 class="h5">Trouver un professionnel local</h2><p class="mb-0">Les fiches publiées indiquent le secteur, l’adresse et les moyens de contact renseignés par chaque organisation.</p></div></div>
+            <div class="col-md-6"><div class="p-4 h-100 border rounded"><h2 class="h5">Une information à corriger ?</h2><p class="mb-0">Signalez une question ou une modification souhaitée à partir de la page <a href="{% url 'core:contact' %}">Contact</a>.</p></div></div>
+        </div>
+    </div>
+</section>
+{% endblock %}

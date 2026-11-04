@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Services | Mairie de Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <span class="badge text-bg-success mb-2">Vos démarches</span>
+        <h1>Services municipaux</h1>
+        <p class="lead mb-0">Consultez les services proposés et les pièces à préparer avant d’entamer une démarche.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for service in services %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex flex-column">
+                            <span class="text-success small mb-2">Service municipal</span>
+                            <h2 class="h5">{{ service.nom }}</h2>
+                            <p>{{ service.description|truncatechars:180 }}</p>
+                            <div class="d-flex flex-wrap gap-2 mt-auto">
+                                <a class="btn btn-outline-primary" href="{{ service.get_absolute_url }}">Consulter le service</a>
+                                <a class="btn btn-primary" href="{% url 'services:service_demande' service.slug %}">Faire une demande</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info" role="status">
+                        <h2 class="h5">Le catalogue des services sera bientôt disponible</h2>
+                        <p class="mb-0">Les fiches détaillées préciseront les documents requis et les étapes à suivre. Pour toute question, consultez la page <a href="{% url 'core:contact' %}">Contact</a>.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row g-4 mt-2">
+            <div class="col-md-4"><div class="h-100 p-4 border rounded"><h2 class="h5">1. Choisissez votre démarche</h2><p class="mb-0">Lisez la description du service et vérifiez les pièces indiquées sur sa fiche.</p></div></div>
+            <div class="col-md-4"><div class="h-100 p-4 border rounded"><h2 class="h5">2. Préparez votre dossier</h2><p class="mb-0">Rassemblez les documents nécessaires avant de contacter ou de vous rendre au service concerné.</p></div></div>
+            <div class="col-md-4"><div class="h-100 p-4 border rounded"><h2 class="h5">3. Suivez les indications</h2><p class="mb-0">Les modalités et délais dépendent de la démarche et sont précisés par le service compétent.</p></div></div>
+        </div>
+    </div>
+</section>
+{% endblock %}

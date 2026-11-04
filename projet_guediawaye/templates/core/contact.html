@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact | Mairie de Guédiawaye{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <span class="badge text-bg-success mb-2">À votre écoute</span>
+        <h1>Contact et orientation</h1>
+        <p class="lead mb-0">Choisissez la rubrique la plus adaptée à votre question pour retrouver les informations disponibles sur le portail.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="p-4 h-100 border rounded">
+                    <h2 class="h4">Une question sur une démarche ?</h2>
+                    <p>Consultez le catalogue des services et ouvrez la fiche correspondante pour vérifier sa description et les pièces éventuellement requises.</p>
+                    <a href="{% url 'services:services_list' %}">Voir les services municipaux &rarr;</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 h-100 border rounded">
+                    <h2 class="h4">Une information locale ?</h2>
+                    <p>Les annonces et informations communales publiées sont regroupées dans la rubrique Actualités.</p>
+                    <a href="{% url 'actualites:actualites_list' %}">Consulter les actualités &rarr;</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 h-100 border rounded">
+                    <h2 class="h4">Vous cherchez un acteur local ?</h2>
+                    <p>L’annuaire permet de parcourir les entreprises, les commerces et les associations référencés.</p>
+                    <a href="{% url 'annuaire:annuaire_list' %}">Parcourir l’annuaire &rarr;</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 h-100 border rounded">
+                    <h2 class="h4">Une question sur la commune ?</h2>
+                    <p>Découvrez les fiches touristiques et culturelles actuellement publiées sur le portail.</p>
+                    <a href="{% url 'tourisme:tourisme_list' %}">Découvrir le tourisme local &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-info mt-4" role="status">
+            <h2 class="h5">À propos des informations affichées</h2>
+            <p class="mb-0">Les coordonnées et modalités propres à chaque démarche figurent sur les fiches correspondantes lorsqu’elles ont été renseignées. En cas d’information manquante, vérifiez directement auprès du service concerné avant de vous déplacer.</p>
+        </div>
+        <div class="mt-5">
+            <h2 class="h3">Bien préparer votre demande</h2>
+            <p>Pour trouver rapidement la bonne information, indiquez la démarche ou le sujet qui vous intéresse, puis consultez la fiche correspondante. Vous pouvez aussi parcourir les annonces récentes pour vérifier si une mise à jour a été publiée.</p>
+            <div class="d-flex flex-wrap gap-3">
+                <a class="btn btn-primary" href="{% url 'services:services_list' %}">Parcourir les démarches</a>
+                <a class="btn btn-outline-primary" href="{% url 'actualites:actualites_list' %}">Voir les dernières annonces</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

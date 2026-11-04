@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ service.nom }} | Services{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <a href="{% url 'services:services_list' %}" class="text-decoration-none">&larr; Tous les services</a>
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-9">
+                <span class="badge text-bg-success mb-2">Service municipal</span>
+                <h1>{{ service.nom }}</h1>
+                <div class="lead">{{ service.description|linebreaks }}</div>
+                <a class="btn btn-primary mt-3" href="{% url 'services:service_demande' service.slug %}">Demander ce service</a>
+                {% if service.photos.all %}
+                    <section class="mt-4" aria-labelledby="galerie-service">
+                        <h2 class="h3 mb-3" id="galerie-service">En images</h2>
+                        <div class="row g-3">
+                            {% for photo in service.photos.all %}
+                                <figure class="col-sm-6 col-lg-4 mb-0">
+                                    <img src="{{ photo.image.url }}" class="gallery-image rounded" alt="{{ photo.legende|default:service.nom }}">
+                                    {% if photo.legende %}<figcaption class="small text-muted mt-2">{{ photo.legende }}</figcaption>{% endif %}
+                                </figure>
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endif %}
+                <div class="card shadow-sm border-0 mt-4">
+                    <div class="card-body p-4">
+                        <h2 class="h4">Documents à préparer</h2>
+                        {% if service.documents_requis %}
+                            <ul class="mb-0">
+                                {% for document in service.documents_requis %}<li>{{ document }}</li>{% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="mb-0">La liste des pièces n’a pas encore été précisée. Vérifiez les documents nécessaires auprès du service avant de constituer votre dossier.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="alert alert-light border mt-4">
+                    <h2 class="h5">Besoin d’une précision ?</h2>
+                    <p class="mb-0">Consultez la page <a href="{% url 'core:contact' %}">Contact</a> ou revenez au <a href="{% url 'services:services_list' %}">catalogue des services</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

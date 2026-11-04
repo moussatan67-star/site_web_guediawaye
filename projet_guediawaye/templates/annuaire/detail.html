@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ organisation.nom }} | Annuaire{% endblock %}
+
+{% block content %}
+<article class="py-5">
+    <div class="container">
+        <a href="{% url 'annuaire:annuaire_list' %}" class="text-decoration-none">&larr; Retour à l’annuaire</a>
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-9">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        {% if organisation.logo %}
+                            <img src="{{ organisation.logo.url }}" class="mb-4" style="max-height: 96px; width: auto; object-fit: contain;" alt="Logo de {{ organisation.nom }}">
+                        {% endif %}
+                        <p class="text-success mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
+                        <h1>{{ organisation.nom }}</h1>
+                        {% if organisation.description %}<div class="lead mt-3">{{ organisation.description|linebreaks }}</div>{% endif %}
+                        <hr class="my-4">
+                        {% if organisation.photos.all %}
+                            <section class="mb-4" aria-labelledby="galerie-organisation">
+                                <h2 class="h4 mb-3" id="galerie-organisation">Photos</h2>
+                                <div class="row g-3">
+                                    {% for photo in organisation.photos.all %}
+                                        <figure class="col-sm-6 col-lg-4 mb-0">
+                                            <img src="{{ photo.image.url }}" class="gallery-image rounded" alt="{{ photo.legende|default:organisation.nom }}">
+                                            {% if photo.legende %}<figcaption class="small text-muted mt-2">{{ photo.legende }}</figcaption>{% endif %}
+                                        </figure>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                        {% endif %}
+                        <h2 class="h4">Coordonnées</h2>
+                        <address>
+                            <p><strong>Adresse :</strong> {{ organisation.adresse }}{% if organisation.commune %}, {{ organisation.commune.nom }}{% endif %}</p>
+                            {% if organisation.telephone %}<p><strong>Téléphone :</strong> <a href="tel:{{ organisation.telephone }}">{{ organisation.telephone }}</a></p>{% endif %}
+                            {% if organisation.email %}<p><strong>E-mail :</strong> <a href="mailto:{{ organisation.email }}">{{ organisation.email }}</a></p>{% endif %}
+                            {% if organisation.site_web %}<p><strong>Site web :</strong> <a href="{{ organisation.site_web }}" target="_blank" rel="noopener noreferrer">{{ organisation.site_web }}</a></p>{% endif %}
+                        </address>
+                    </div>
+                </div>
+                <p class="mt-4">Consultez les autres structures de l’<a href="{% url 'annuaire:annuaire_list' %}">annuaire local</a>.</p>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}
