@@ -41,6 +41,20 @@ table {
   white-space: nowrap;
 }
 
+.site-header .site-brand {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.site-header .site-brand img {
+  display: block;
+  width: 7rem;
+  height: 3.5rem;
+  object-fit: contain;
+  background: var(--color-white);
+  border-radius: 0.25rem;
+}
+
 .site-header .navbar-brand,
 .site-header .nav-link,
 .site-header .btn {
@@ -119,6 +133,73 @@ table {
   border: 0;
 }
 
+.alternating-media-list > .media-text-item {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+.alternating-media-list {
+  row-gap: 3rem;
+}
+
+.media-text-item.has-media > article {
+  display: flex;
+  flex-direction: row;
+  gap: 2.25rem;
+  min-height: 18rem;
+}
+
+.media-text-item.has-media:nth-child(even) > article {
+  flex-direction: row-reverse;
+}
+
+.media-text-item.has-media > article > .media-text-image {
+  flex: 0 0 38%;
+  width: 38%;
+  height: auto;
+  min-height: 18rem;
+  object-fit: cover;
+}
+
+.media-text-item.has-media > article > .media-text-logo {
+  object-fit: contain;
+  padding: 2rem;
+  background: var(--color-light);
+}
+
+.media-text-item.has-media > article > .card-body {
+  flex: 1 1 62%;
+}
+
+.media-text-row {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.media-text-row > .media-text-image {
+  flex: 0 0 42%;
+  width: 42%;
+  max-height: 28rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+.media-text-row > .media-text-logo {
+  object-fit: contain;
+  padding: 2rem;
+  background: var(--color-light);
+}
+
+.media-text-row > .media-text-content {
+  flex: 1 1 58%;
+  min-width: 0;
+}
+
+.alternating-media-list > .media-text-item:nth-child(even) > .media-text-row {
+  flex-direction: row-reverse;
+}
+
 .btn-primary {
   background: var(--color-green);
   border-color: var(--color-green);
@@ -153,6 +234,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767.98px) {
+  .media-text-item.has-media > article,
+  .media-text-item.has-media:nth-child(even) > article,
+  .media-text-row,
+  .alternating-media-list > .media-text-item:nth-child(even) > .media-text-row {
+    flex-direction: column;
+  }
+
+  .alternating-media-list {
+    row-gap: 2rem;
+  }
+
+  .media-text-item.has-media > article {
+    gap: 0;
+  }
+
+  .media-text-item.has-media > article > .card-body {
+    padding-top: 2rem;
+  }
+
+  .media-text-item.has-media > article > .media-text-image {
+    flex-basis: auto;
+    width: 100%;
+    height: 15rem;
+    min-height: 0;
+  }
+
+  .media-text-item.has-media > article > .media-text-logo {
+    height: 12rem;
+  }
+
+  .media-text-row > .media-text-image {
+    flex-basis: auto;
+    width: 100%;
+    max-height: 18rem;
+  }
+
   .site-footer .container {
     padding-block: 2rem !important;
   }

@@ -11,11 +11,19 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4 p-md-5">
                         {% if organisation.logo %}
-                            <img src="{{ organisation.logo.url }}" class="mb-4" style="max-height: 96px; width: auto; object-fit: contain;" alt="Logo de {{ organisation.nom }}">
+                            <div class="media-text-row mb-4">
+                                <img src="{{ organisation.logo.url }}" class="media-text-image media-text-logo" alt="Logo de {{ organisation.nom }}">
+                                <div class="media-text-content">
+                                    <p class="text-success mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
+                                    <h1>{{ organisation.nom }}</h1>
+                                    {% if organisation.description %}<div class="lead mt-3">{{ organisation.description|linebreaks }}</div>{% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="text-success mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
+                            <h1>{{ organisation.nom }}</h1>
+                            {% if organisation.description %}<div class="lead mt-3">{{ organisation.description|linebreaks }}</div>{% endif %}
                         {% endif %}
-                        <p class="text-success mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
-                        <h1>{{ organisation.nom }}</h1>
-                        {% if organisation.description %}<div class="lead mt-3">{{ organisation.description|linebreaks }}</div>{% endif %}
                         <hr class="my-4">
                         {% if organisation.photos.all %}
                             <section class="mb-4" aria-labelledby="galerie-organisation">

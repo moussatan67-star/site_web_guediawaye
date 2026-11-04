@@ -13,14 +13,14 @@
 
 <section class="py-5">
     <div class="container">
-        <div class="row g-4">
+        <div class="row g-4 alternating-media-list">
             {% for organisation in organisations %}
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 media-text-item{% if organisation.logo %} has-media{% endif %}">
                     <article class="card h-100 shadow-sm border-0">
+                        {% if organisation.logo %}
+                            <img src="{{ organisation.logo.url }}" class="media-text-image media-text-logo" alt="Logo de {{ organisation.nom }}">
+                        {% endif %}
                         <div class="card-body d-flex flex-column">
-                            {% if organisation.logo %}
-                                <img src="{{ organisation.logo.url }}" class="mb-3" style="max-height: 72px; width: auto; object-fit: contain; object-position: left;" alt="Logo de {{ organisation.nom }}">
-                            {% endif %}
                             <p class="text-success small mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
                             <h2 class="h5">{{ organisation.nom }}</h2>
                             <p>{{ organisation.description|default:"Consultez la fiche pour retrouver les coordonnées et informations disponibles."|truncatechars:160 }}</p>

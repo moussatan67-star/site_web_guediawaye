@@ -15,9 +15,13 @@
                     {% if article.auteur %} · {{ article.auteur.get_full_name|default:article.auteur.username }}{% endif %}
                 </p>
                 {% if article.image %}
-                    <img src="{{ article.image.url }}" class="img-fluid rounded mb-4" alt="{{ article.titre }}">
+                    <div class="media-text-row mb-4">
+                        <img src="{{ article.image.url }}" class="media-text-image" alt="{{ article.titre }}">
+                        <div class="fs-5 media-text-content">{{ article.contenu|linebreaks }}</div>
+                    </div>
+                {% else %}
+                    <div class="fs-5">{{ article.contenu|linebreaks }}</div>
                 {% endif %}
-                <div class="fs-5">{{ article.contenu|linebreaks }}</div>
                 {% if article.photos.all %}
                     <section class="mt-5" aria-labelledby="galerie-actualite">
                         <h2 class="h3 mb-3" id="galerie-actualite">En images</h2>

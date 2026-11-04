@@ -14,12 +14,12 @@
 <section class="py-5">
     <div class="container">
         <h2 class="h3 mb-4">Lieux à découvrir</h2>
-        <div class="row g-4">
+        <div class="row g-4 alternating-media-list">
             {% for lieu in lieux %}
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 media-text-item{% if lieu.photo %} has-media{% endif %}">
                     <article class="card h-100 shadow-sm border-0">
                         {% if lieu.photo %}
-                            <img src="{{ lieu.photo.url }}" class="card-img-top" alt="{{ lieu.nom }}">
+                            <img src="{{ lieu.photo.url }}" class="card-img-top media-text-image" alt="{{ lieu.nom }}">
                         {% endif %}
                         <div class="card-body d-flex flex-column">
                             <p class="text-success small mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
@@ -40,12 +40,12 @@
         </div>
         <section class="mt-5" aria-labelledby="evenements-a-venir">
             <h2 class="h3 mb-4" id="evenements-a-venir">Événements culturels à venir</h2>
-            <div class="row g-4">
+            <div class="row g-4 alternating-media-list">
                 {% for evenement in evenements %}
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-12 media-text-item{% if evenement.image %} has-media{% endif %}">
                         <article class="card h-100 shadow-sm border-0">
                             {% if evenement.image %}
-                                <img src="{{ evenement.image.url }}" class="card-img-top" alt="{{ evenement.titre }}">
+                                <img src="{{ evenement.image.url }}" class="card-img-top media-text-image" alt="{{ evenement.titre }}">
                             {% endif %}
                             <div class="card-body">
                                 <h3 class="h5">{{ evenement.titre }}</h3>

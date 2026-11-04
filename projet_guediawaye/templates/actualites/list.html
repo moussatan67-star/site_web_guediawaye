@@ -14,21 +14,21 @@
 <section class="py-5">
     <div class="container">
         {% if articles %}
-            <div class="row g-4">
+            <div class="row g-4 alternating-media-list">
                 {% for article in articles %}
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-12 media-text-item{% if article.image %} has-media{% endif %}">
                         <article class="card h-100 shadow-sm border-0">
                             {% if article.image %}
-                                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.titre }}">
+                                <img src="{{ article.image.url }}" class="card-img-top media-text-image" alt="{{ article.titre }}">
                             {% endif %}
                             <div class="card-body d-flex flex-column">
                                 <p class="text-success small mb-2">{{ article.get_categorie_display }}</p>
                                 <h2 class="h5">{{ article.titre }}</h2>
                                 <p>{{ article.contenu|truncatechars:180 }}</p>
                                 <a class="btn btn-outline-primary mt-auto align-self-start" href="{{ article.get_absolute_url }}">Lire l’article</a>
-                            </div>
-                            <div class="card-footer bg-white text-muted small">
-                                {% if article.date_publication %}Publié le {{ article.date_publication|date:"d/m/Y" }}{% else %}Publié récemment{% endif %}
+                                <p class="text-muted small mt-3 mb-0">
+                                    {% if article.date_publication %}Publié le {{ article.date_publication|date:"d/m/Y" }}{% else %}Publié récemment{% endif %}
+                                </p>
                             </div>
                         </article>
                     </div>
