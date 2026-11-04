@@ -1,6 +1,7 @@
 :root {
   --color-green: #1B7A3E;
   --color-yellow: #FCD116;
+  --color-yellow-text: #806600;
   --color-red: #E31B23;
   --color-white: #ffffff;
   --color-light: #f5f5f5;
@@ -13,6 +14,14 @@ body {
   color: var(--color-text);
   background: var(--color-white);
   min-width: 320px;
+}
+
+.text-success {
+  color: var(--color-yellow-text) !important;
+  display: table;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-yellow);
 }
 
 img,
@@ -34,7 +43,7 @@ table {
 }
 
 .site-header {
-  background: var(--color-green);
+  background: #1d5f91;
 }
 
 .site-header .navbar-brand {
@@ -48,8 +57,8 @@ table {
 
 .site-header .site-brand img {
   display: block;
-  width: 7rem;
-  height: 3.5rem;
+  width: 8.5rem;
+  height: 4rem;
   object-fit: contain;
   background: var(--color-white);
   border-radius: 0.25rem;
@@ -59,6 +68,39 @@ table {
 .site-header .nav-link,
 .site-header .btn {
   color: var(--color-white) !important;
+}
+
+.site-header .nav-link {
+  position: relative;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.site-header .nav-link::after {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.2rem;
+  left: 0.5rem;
+  height: 2px;
+  content: "";
+  background-color: var(--color-yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link:focus-visible {
+  color: var(--color-yellow) !important;
+}
+
+.site-header .nav-link:hover::after,
+.site-header .nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.site-header .nav-link:focus-visible {
+  outline: 2px solid var(--color-yellow);
+  outline-offset: 2px;
 }
 
 .site-header .navbar-toggler {
@@ -110,7 +152,7 @@ table {
 }
 
 .site-footer {
-  background: #0b1f12;
+  background: #123b5d;
   color: var(--color-white);
 }
 
@@ -129,7 +171,7 @@ table {
 .location-map iframe {
   display: block;
   width: 100%;
-  height: clamp(18rem, 45vw, 28rem);
+  height: clamp(13rem, 24vw, 18rem);
   border: 0;
 }
 

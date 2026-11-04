@@ -63,16 +63,6 @@
                                             <h3 class="h5">{{ evenement.titre }}</h3>
                                             <p>{{ evenement.description|linebreaks }}</p>
                                             <p class="mb-0"><strong>Du</strong> {{ evenement.date_debut|date:"d/m/Y à H:i" }} <strong>au</strong> {{ evenement.date_fin|date:"d/m/Y à H:i" }}</p>
-                                            {% if evenement.photos.all %}
-                                                <div class="row g-2 mt-2">
-                                                    {% for photo in evenement.photos.all %}
-                                                        <figure class="col-6 mb-0">
-                                                            <img src="{{ photo.image.url }}" class="gallery-image rounded" alt="{{ photo.legende|default:evenement.titre }}">
-                                                            {% if photo.legende %}<figcaption class="small text-muted mt-1">{{ photo.legende }}</figcaption>{% endif %}
-                                                        </figure>
-                                                    {% endfor %}
-                                                </div>
-                                            {% endif %}
                                         </div>
                                     </article>
                                 </div>

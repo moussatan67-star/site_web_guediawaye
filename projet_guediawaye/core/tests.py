@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from actualites.models import Actualite
 
-from .models import Commune, PageInstitutionnelle, PhotoGalerie
+from .models import Commune, Contact, PageInstitutionnelle, PhotoGalerie
 
 
 class CommuneSeedTests(TestCase):
@@ -34,6 +34,52 @@ class HomePageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Annonce de la commune")
         self.assertContains(response, "Annonces")
+
+
+class ContactPageTests(TestCase):
+    def test_contact_page_displays_form_and_reduced_map(self):
+        response = self.client.get("/contact/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="nom"')
+        self.assertContains(response, 'name="email"')
+        self.assertContains(response, 'name="sujet"')
+        self.assertContains(response, 'name="message"')
+        self.assertContains(response, "openstreetmap.org/export/embed.html")
+
+    def test_valid_contact_submission_is_saved(self):
+        response = self.client.post(
+            "/contact/",
+            {
+                "nom": "Awa Diop",
+                "email": "awa@example.com",
+                "sujet": "Question",
+                "message": "Bonjour, je souhaite une information.",
+            },
+        )
+
+        self.assertRedirects(response, "/contact/")
+        self.assertEqual(Contact.objects.count(), 1)
+        contact = Contact.objects.get()
+        self.assertEqual(contact.nom, "Awa Diop")
+        self.assertEqual(contact.email, "awa@example.com")
+        self.assertEqual(contact.sujet, "Question")
+        self.assertEqual(contact.message, "Bonjour, je souhaite une information.")
+
+    def test_invalid_contact_submission_is_not_saved(self):
+        response = self.client.post(
+            "/contact/",
+            {
+                "nom": "Awa Diop",
+                "email": "adresse-invalide",
+                "sujet": "Question",
+                "message": "Bonjour.",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("email", response.context["form"].errors)
+        self.assertEqual(Contact.objects.count(), 0)
 
 
 class PhotoGalerieTests(TestCase):
