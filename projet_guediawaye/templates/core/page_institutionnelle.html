@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page.titre }} | Mairie de Guédiawaye{% endblock %}
+{% block meta_description %}{{ page.contenu|striptags|truncatechars:155 }}{% endblock %}
+
+{% block content %}
+<section class="page-hero{% if page.type_page == 'histoire' %} page-hero-history{% else %} page-hero-about{% endif %}">
+    <div class="container">
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ page.titre }}</li>
+            </ol>
+        </nav>
+        <span class="section-eyebrow">Découvrir Guédiawaye</span>
+        <h1 class="display-5 fw-bold mt-2 mb-3">{{ page.titre }}</h1>
+        <p class="lead mb-0">Repères et informations pour mieux connaître notre commune.</p>
+        <figure class="institutional-hero-photo mt-4 mb-0">
+            {% if page.type_page == "histoire" %}
+                <img src="{% static 'images/SIMBE.jpg' %}" alt="Costume et traditions culturelles sénégalaises" fetchpriority="high">
+            {% else %}
+                <img src="{% static 'images/mairie.jpg' %}" alt="Espace public de Guédiawaye" fetchpriority="high">
+            {% endif %}
+            <figcaption>{% if page.type_page == "histoire" %}Traditions culturelles du Sénégal{% else %}Guédiawaye · Vie locale{% endif %}</figcaption>
+        </figure>
+    </div>
+</section>
+
+<article class="py-5 editorial-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 institutional-content">
+                <div class="institutional-copy fs-5">{{ page.contenu|linebreaks }}</div>
+                {% if page.photos.all %}
+                    <section class="mt-5" aria-labelledby="galerie-institutionnelle">
+                        <h2 class="h3 mb-3" id="galerie-institutionnelle">En images</h2>
+                        <div class="row g-3">
+                            {% for photo in page.photos.all %}
+                                <figure class="col-sm-6 col-lg-4 mb-0">
+                                    <img src="{{ photo.image.url }}" class="gallery-image rounded" alt="{{ photo.legende|default:page.titre }}">
+                                    {% if photo.legende %}<figcaption class="small text-muted mt-2">{{ photo.legende }}</figcaption>{% endif %}
+                                </figure>
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endif %}
+                <div class="institutional-related mt-5">
+                    <h2 class="h5">Explorer le portail</h2>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-outline-primary" href="{% url 'core:page_institutionnelle' 'a-propos' %}">À propos</a>
+                        <a class="btn btn-outline-primary" href="{% url 'services:services_list' %}">Services municipaux</a>
+                        <a class="btn btn-outline-primary" href="{% url 'annuaire:annuaire_list' %}">Annuaire local</a>
+                        <a class="btn btn-outline-primary" href="{% url 'core:contact' %}">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}

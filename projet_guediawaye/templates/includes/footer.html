@@ -1,24 +1,42 @@
-<footer class="site-footer mt-5">
+{% load static %}
+<footer class="site-footer">
     <div class="container py-5">
         <div class="row g-4">
-            <div class="col-md-4">
-                <h5>Mairie de Guédiawaye</h5>
-                <p>Service public, transparence, proximité et développement durable.</p>
+            <div class="col-lg-4">
+                <a class="footer-brand" href="{% url 'core:home' %}">
+                    <img src="{% static 'images/logo.jpg' %}" alt="">
+                    <span><strong>Mairie de Guédiawaye</strong><small>Portail d’information et de services</small></span>
+                </a>
+                <p class="footer-intro mt-3 mb-0">Les informations et les services utiles aux habitants, réunis sur un même portail.</p>
             </div>
-            <div class="col-md-4">
-                <h5>Liens utiles</h5>
-                <ul class="list-unstyled">
-                    <li><a href="/">Accueil</a></li>
-                    <li><a href="/actualites/">Actualités</a></li>
-                    <li><a href="/services/">Services</a></li>
-                    <li><a href="/contact/">Contact</a></li>
+            <div class="col-6 col-lg-2">
+                <h2 class="footer-heading">Découvrir</h2>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="{% url 'core:home' %}">Accueil</a></li>
+                    <li><a href="{% url 'core:page_institutionnelle' 'histoire' %}">Histoire de Guédiawaye</a></li>
+                    <li><a href="{% url 'core:page_institutionnelle' 'a-propos' %}">À propos de la commune</a></li>
+                    <li><a href="{% url 'actualites:actualites_list' %}">Actualités</a></li>
+                    <li><a href="{% url 'tourisme:tourisme_list' %}">Tourisme et culture</a></li>
+                    <li><a href="{% url 'annuaire:annuaire_list' %}">Annuaire local</a></li>
                 </ul>
             </div>
-            <div class="col-md-4">
-                <h5>Contact</h5>
-                <p>Les coordonnées et modalités vérifiées sont indiquées sur les fiches des services lorsqu’elles sont disponibles.</p>
-                <a href="/contact/">Trouver la bonne rubrique &rarr;</a>
+            <div class="col-6 col-lg-3">
+                <h2 class="footer-heading">Services aux citoyens</h2>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="{% url 'services:services_list' %}">Services municipaux</a></li>
+                    <li><a href="{% url 'accounts:login' %}">Espace citoyen</a></li>
+                    <li><a href="{% url 'core:contact' %}">Contact et orientation</a></li>
+                </ul>
             </div>
+            <div class="col-lg-3">
+                <h2 class="footer-heading">Une question ?</h2>
+                <p>Consultez les rubriques du portail ou écrivez à la mairie depuis la page Contact.</p>
+                <a class="footer-contact-link" href="{% url 'core:contact' %}">Contacter la mairie <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="footer-bottom mt-4 pt-3">
+            <span>&copy; {% now "Y" %} Mairie de Guédiawaye</span>
+            <span>Portail d’information et de services municipaux</span>
         </div>
     </div>
 </footer>

@@ -1,22 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Tableau de bord | Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
+<section class="page-hero page-hero-dashboard">
     <div class="container">
-        <span class="badge text-bg-success mb-2">Pilotage communal</span>
-        <h1>Tableau de bord</h1>
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tableau de bord</li>
+            </ol>
+        </nav>
+        <span class="section-eyebrow">Pilotage communal</span>
+        <h1 class="display-5 fw-bold mt-2 mb-3">Tableau de bord</h1>
         <p class="lead mb-0">Les rubriques principales pour suivre l’activité et les informations gérées sur le portail.</p>
+        <figure class="page-feature-photo mt-4 mb-0">
+            <img src="{% static 'images/mairie.jpg' %}" alt="Espace public de la commune" loading="lazy">
+            <figcaption>Les services et informations de Guédiawaye</figcaption>
+        </figure>
     </div>
 </section>
 
 <section class="py-5">
     <div class="container">
         <div class="row g-4">
-            <div class="col-md-6 col-lg-4"><div class="card h-100 shadow-sm border-0"><div class="card-body"><h2 class="h5">Demandes de service</h2><p>Les demandes sont associées à un service et à un dossier afin de faciliter leur suivi.</p><a href="{% url 'services:services_list' %}">Consulter les services &rarr;</a></div></div></div>
-            <div class="col-md-6 col-lg-4"><div class="card h-100 shadow-sm border-0"><div class="card-body"><h2 class="h5">Informations communales</h2><p>Les actualités publiées présentent les annonces et les informations disponibles pour les habitants.</p><a href="{% url 'actualites:actualites_list' %}">Voir les actualités &rarr;</a></div></div></div>
-            <div class="col-md-6 col-lg-4"><div class="card h-100 shadow-sm border-0"><div class="card-body"><h2 class="h5">Ressources locales</h2><p>Les fiches tourisme et annuaire rassemblent les informations locales publiées sur le portail.</p><a href="{% url 'annuaire:annuaire_list' %}">Ouvrir l’annuaire &rarr;</a></div></div></div>
+            <div class="col-md-6 col-lg-4"><div class="card portal-card h-100"><div class="card-body"><h2 class="h5">Demandes de service</h2><p>Les demandes sont associées à un service et à un dossier afin de faciliter leur suivi.</p><a href="{% url 'services:services_list' %}">Consulter les services &rarr;</a></div></div></div>
+            <div class="col-md-6 col-lg-4"><div class="card portal-card h-100"><div class="card-body"><h2 class="h5">Informations communales</h2><p>Les actualités publiées présentent les annonces et les informations disponibles pour les habitants.</p><a href="{% url 'actualites:actualites_list' %}">Voir les actualités &rarr;</a></div></div></div>
+            <div class="col-md-6 col-lg-4"><div class="card portal-card h-100"><div class="card-body"><h2 class="h5">Ressources locales</h2><p>Les fiches tourisme et annuaire rassemblent les informations locales publiées sur le portail.</p><a href="{% url 'annuaire:annuaire_list' %}">Ouvrir l’annuaire &rarr;</a></div></div></div>
         </div>
         <div class="alert alert-info mt-4" role="status">
             <h2 class="h5">À propos de ce tableau de bord</h2>

@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Contact | Mairie de Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
+<section class="page-hero page-hero-contact">
     <div class="container">
-        <span class="badge text-bg-success mb-2">À votre écoute</span>
-        <h1>Contact et orientation</h1>
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Contact</li>
+            </ol>
+        </nav>
+        <span class="section-eyebrow">À votre écoute</span>
+        <h1 class="display-5 fw-bold mt-2 mb-3">Contact et orientation</h1>
         <p class="lead mb-0">Choisissez la rubrique la plus adaptée à votre question pour retrouver les informations disponibles sur le portail.</p>
     </div>
 </section>
@@ -18,28 +25,28 @@
         {% endfor %}
         <div class="row g-4">
             <div class="col-md-6">
-                <div class="p-4 h-100 border rounded">
+                <div class="info-card p-4 h-100">
                     <h2 class="h4">Une question sur une démarche ?</h2>
                     <p>Consultez le catalogue des services et ouvrez la fiche correspondante pour vérifier sa description et les pièces éventuellement requises.</p>
                     <a href="{% url 'services:services_list' %}">Voir les services municipaux &rarr;</a>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-4 h-100 border rounded">
+                <div class="info-card p-4 h-100">
                     <h2 class="h4">Une information locale ?</h2>
                     <p>Les annonces et informations communales publiées sont regroupées dans la rubrique Actualités.</p>
                     <a href="{% url 'actualites:actualites_list' %}">Consulter les actualités &rarr;</a>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-4 h-100 border rounded">
+                <div class="info-card p-4 h-100">
                     <h2 class="h4">Vous cherchez un acteur local ?</h2>
                     <p>L’annuaire permet de parcourir les entreprises, les commerces et les associations référencés.</p>
                     <a href="{% url 'annuaire:annuaire_list' %}">Parcourir l’annuaire &rarr;</a>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-4 h-100 border rounded">
+                <div class="info-card p-4 h-100">
                     <h2 class="h4">Une question sur la commune ?</h2>
                     <p>Découvrez les fiches touristiques et culturelles actuellement publiées sur le portail.</p>
                     <a href="{% url 'tourisme:tourisme_list' %}">Découvrir le tourisme local &rarr;</a>
@@ -48,7 +55,11 @@
         </div>
         <div class="row g-4 mt-4 align-items-stretch">
             <section class="col-lg-7" aria-labelledby="contact-form-heading">
-                <div class="p-4 border rounded h-100">
+                <figure class="contact-photo mb-4">
+                    <img src="{% static 'images/mairie.jpg' %}" alt="Espace public aménagé à Guédiawaye" loading="lazy">
+                    <figcaption>Guédiawaye · Espace public</figcaption>
+                </figure>
+                <div class="info-card p-4 h-100">
                     <h2 class="h3" id="contact-form-heading">Envoyer un message</h2>
                     <p>Remplissez le formulaire. Votre message sera enregistré pour consultation par la mairie.</p>
                     <form method="post" novalidate>

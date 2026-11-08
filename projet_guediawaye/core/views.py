@@ -1,9 +1,11 @@
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, render
 
 from actualites.models import Actualite
 
 from .forms import ContactForm
+from .models import PageInstitutionnelle
 
 
 def home(request):
@@ -34,4 +36,17 @@ def contact(request):
         request,
         'core/contact.html',
         {'title': 'Contact', 'form': form},
+    )
+
+
+def page_institutionnelle(request, slug):
+    page = get_object_or_404(
+        PageInstitutionnelle.objects.prefetch_related("photos"),
+        slug=slug,
+        publiee=True,
+    )
+    return render(
+        request,
+        "core/page_institutionnelle.html",
+        {"title": page.titre, "page": page},
     )

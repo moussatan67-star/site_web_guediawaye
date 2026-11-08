@@ -1,46 +1,140 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Services | Mairie de Guédiawaye{% endblock %}
+{% block title %}Services municipaux | Mairie de Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
-    <div class="container">
-        <span class="badge text-bg-success mb-2">Vos démarches</span>
-        <h1>Services municipaux</h1>
-        <p class="lead mb-0">Consultez les services proposés et les pièces à préparer avant d’entamer une démarche.</p>
+<section class="service-hero">
+    <div class="container py-5">
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Services municipaux</li>
+            </ol>
+        </nav>
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-8">
+                <span class="section-eyebrow">Mairie de Guédiawaye · Services aux citoyens</span>
+                <h1 class="display-5 fw-bold mt-2 mb-3">Vos démarches, en toute simplicité</h1>
+                <p class="lead mb-4">Retrouvez les services municipaux, consultez les informations disponibles et préparez votre démarche avant de contacter la mairie.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a class="btn btn-primary btn-lg" href="#catalogue-services">Explorer les services <span aria-hidden="true">↓</span></a>
+                    <a class="btn btn-outline-light btn-lg" href="{% url 'core:contact' %}">Contacter la mairie</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <figure class="service-hero-photo mb-0">
+                    <img src="{% static 'images/mairie.jpg' %}" alt="Espace public de la commune" loading="lazy">
+                    <figcaption>Des services au quotidien</figcaption>
+                </figure>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="py-5">
+<section class="py-5" id="catalogue-services" aria-labelledby="catalogue-heading">
     <div class="container">
-        <div class="row g-4">
-            {% for service in services %}
-                <div class="col-md-6 col-lg-4">
-                    <article class="card h-100 shadow-sm border-0">
-                        <div class="card-body d-flex flex-column">
-                            <span class="text-success small mb-2">Service municipal</span>
-                            <h2 class="h5">{{ service.nom }}</h2>
-                            <p>{{ service.description|truncatechars:180 }}</p>
-                            <div class="d-flex flex-wrap gap-2 mt-auto">
-                                <a class="btn btn-outline-primary" href="{{ service.get_absolute_url }}">Consulter le service</a>
-                                <a class="btn btn-primary" href="{% url 'services:service_demande' service.slug %}">Faire une demande</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            {% empty %}
-                <div class="col-12">
-                    <div class="alert alert-info" role="status">
-                        <h2 class="h5">Le catalogue des services sera bientôt disponible</h2>
-                        <p class="mb-0">Les fiches détaillées préciseront les documents requis et les étapes à suivre. Pour toute question, consultez la page <a href="{% url 'core:contact' %}">Contact</a>.</p>
-                    </div>
-                </div>
-            {% endfor %}
+        <div class="service-catalogue-heading mb-4">
+            <div>
+                <span class="section-eyebrow service-eyebrow-dark">Le portail des démarches</span>
+                <h2 class="h1 mt-2 mb-2" id="catalogue-heading">Services municipaux</h2>
+                <p class="text-muted mb-0">Choisissez une rubrique pour consulter sa fiche et les renseignements disponibles.</p>
+            </div>
+            <div class="service-total">
+                <strong>{{ total_services }}</strong>
+                <span>services référencés</span>
+            </div>
         </div>
-        <div class="row g-4 mt-2">
-            <div class="col-md-4"><div class="h-100 p-4 border rounded"><h2 class="h5">1. Choisissez votre démarche</h2><p class="mb-0">Lisez la description du service et vérifiez les pièces indiquées sur sa fiche.</p></div></div>
-            <div class="col-md-4"><div class="h-100 p-4 border rounded"><h2 class="h5">2. Préparez votre dossier</h2><p class="mb-0">Rassemblez les documents nécessaires avant de contacter ou de vous rendre au service concerné.</p></div></div>
-            <div class="col-md-4"><div class="h-100 p-4 border rounded"><h2 class="h5">3. Suivez les indications</h2><p class="mb-0">Les modalités et délais dépendent de la démarche et sont précisés par le service compétent.</p></div></div>
+
+        <form method="get" class="service-search mb-4" role="search">
+            <label class="visually-hidden" for="service-search">Rechercher un service</label>
+            <span class="service-search-icon" aria-hidden="true">⌕</span>
+            <input id="service-search" class="form-control" type="search" name="q" value="{{ recherche }}" placeholder="Rechercher un service ou une démarche">
+            <button class="btn btn-primary" type="submit">Rechercher</button>
+            {% if recherche %}
+                <a class="service-clear-search" href="{% url 'services:services_list' %}">Effacer</a>
+            {% endif %}
+        </form>
+
+        <div class="d-flex justify-content-between align-items-baseline gap-2 mb-3">
+            <h3 class="h5 mb-0">Le catalogue</h3>
+            <span class="small text-muted" aria-live="polite">{{ services|length }} résultat{{ services|length|pluralize }}</span>
+        </div>
+
+        {% if services %}
+            <div class="row g-4">
+                {% for service in services %}
+                    <div class="col-md-6 col-xl-4">
+                        <article class="card service-card h-100">
+                            {% if service.illustration.image %}
+                                <figure class="service-card-photo mb-0">
+                                    <img src="{% static service.illustration.image %}" alt="{{ service.illustration.alt }}" loading="lazy">
+                                    <figcaption>{{ service.illustration.caption }}</figcaption>
+                                </figure>
+                            {% else %}
+                                <div class="service-card-photo service-card-photo-placeholder" aria-hidden="true"></div>
+                            {% endif %}
+                            <div class="card-body d-flex flex-column p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <span class="service-card-mark" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+                                    <span class="service-card-label">Service municipal</span>
+                                </div>
+                                <h3 class="h5 mb-2">{{ service.nom }}</h3>
+                                <p class="text-muted mb-4">{{ service.description|truncatechars:145 }}</p>
+                                <a class="service-card-link mt-auto" href="{{ service.get_absolute_url }}">Consulter la fiche <span aria-hidden="true">→</span></a>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="service-empty text-center py-5 px-3" role="status">
+                {% if recherche %}
+                    <h3 class="h4">Aucun service trouvé</h3>
+                    <p class="text-muted mb-4">Essayez un autre mot-clé ou parcourez l’ensemble du catalogue.</p>
+                    <a class="btn btn-outline-primary" href="{% url 'services:services_list' %}">Afficher tous les services</a>
+                {% else %}
+                    <h3 class="h4">Le catalogue se prépare</h3>
+                    <p class="text-muted mb-0">Les services municipaux seront affichés ici dès leur publication.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="service-steps-section py-5" aria-labelledby="preparer-demarche-heading">
+    <div class="container">
+        <div class="row align-items-end g-3 mb-4">
+            <div class="col-lg-8">
+                <span class="section-eyebrow service-eyebrow-dark">Comment procéder ?</span>
+                <h2 class="h2 mt-2 mb-0" id="preparer-demarche-heading">Préparez votre démarche en trois étapes</h2>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'core:contact' %}">Une question ? Contactez la mairie <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <article class="service-step h-100">
+                    <span class="service-step-number">01</span>
+                    <h3 class="h5">Trouvez le bon service</h3>
+                    <p class="mb-0 text-muted">Parcourez le catalogue ou recherchez une démarche par mot-clé.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="service-step h-100">
+                    <span class="service-step-number">02</span>
+                    <h3 class="h5">Consultez la fiche</h3>
+                    <p class="mb-0 text-muted">Vérifiez les renseignements publiés et les documents à préparer, s’ils sont indiqués.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="service-step h-100">
+                    <span class="service-step-number">03</span>
+                    <h3 class="h5">Contactez le service</h3>
+                    <p class="mb-0 text-muted">Confirmez les modalités et les délais auprès de la mairie avant d’entamer la démarche.</p>
+                </article>
+            </div>
         </div>
     </div>
 </section>

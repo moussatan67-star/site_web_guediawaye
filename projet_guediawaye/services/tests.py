@@ -6,10 +6,52 @@ from django.urls import reverse
 from .models import DemandeService, Service
 
 
+class CatalogueServicesTests(TestCase):
+    def test_services_municipaux_sont_affiches(self):
+        response = self.client.get(reverse("services:services_list"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "État civil")
+        self.assertContains(response, "Hygiène et assainissement")
+        self.assertContains(response, "Jeunesse, sports et culture")
+        self.assertContains(response, "/static/images/STADE.jpg")
+        self.assertContains(response, "/static/images/commerce.jpg")
+        self.assertContains(response, "/static/images/fbtgotgj.jpg")
+
+    def test_illustrations_du_catalogue_ne_sont_pas_dupliquees(self):
+        response = self.client.get(reverse("services:services_list"))
+        images = [
+            service.illustration["image"]
+            for service in response.context["services"]
+            if service.illustration["image"]
+        ]
+
+        self.assertEqual(len(images), len(set(images)))
+        self.assertContains(response, "service-card-photo-placeholder")
+
+    def test_recherche_filtre_le_catalogue(self):
+        response = self.client.get(reverse("services:services_list"), {"q": "hygiène"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Hygiène et assainissement")
+        self.assertNotContains(response, "État civil")
+        self.assertEqual(len(response.context["services"]), 1)
+
+    def test_les_fiches_du_catalogue_sont_consultables(self):
+        service = Service.objects.get(nom="État civil")
+
+        response = self.client.get(service.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, service.description)
+        self.assertContains(response, "/static/images/fbtgotgj.jpg")
+        self.assertContains(response, "La liste des pièces n’a pas encore été précisée")
+
+
 class DemandeServiceTests(TestCase):
     def setUp(self):
         self.service = Service.objects.create(
-            nom="État civil",
+            nom="Service de test",
             description="Démarches d'état civil.",
         )
         self.url = reverse("services:service_demande", kwargs={"slug": self.service.slug})

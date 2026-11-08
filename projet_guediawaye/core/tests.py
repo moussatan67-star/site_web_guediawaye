@@ -34,6 +34,36 @@ class HomePageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Annonce de la commune")
         self.assertContains(response, "Annonces")
+        self.assertContains(response, "/static/images/mairie.jpg")
+        self.assertNotContains(response, "/media/")
+
+    def test_homepage_links_to_history_and_about_pages(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, "L’histoire de Guédiawaye")
+        self.assertContains(response, "À propos de la commune")
+        self.assertContains(response, "/commune/histoire/")
+
+    def test_institutional_history_page_is_published_and_readable(self):
+        response = self.client.get("/commune/histoire/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Histoire de Guédiawaye")
+        self.assertContains(response, "Golf Sud")
+        self.assertContains(response, "Wakhinane-Nimzatt")
+
+    def test_unpublished_institutional_page_is_not_public(self):
+        page = PageInstitutionnelle.objects.create(
+            titre="Page non publiée",
+            slug="page-non-publiee",
+            type_page=PageInstitutionnelle.TypePage.HISTOIRE,
+            contenu="Contenu interne.",
+            publiee=False,
+        )
+
+        response = self.client.get(f"/commune/{page.slug}/")
+
+        self.assertEqual(response.status_code, 404)
 
 
 class ContactPageTests(TestCase):

@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ title }} | Mairie de Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
+<section class="account-page py-5">
     <div class="container">
         <a href="{{ service.get_absolute_url }}" class="text-decoration-none">&larr; Retour à la fiche du service</a>
         <div class="row justify-content-center mt-4">
             <div class="col-lg-8">
-                <div class="card shadow-sm border-0">
+                <figure class="account-visual mb-4">
+                    <img src="{% static 'images/mairie.jpg' %}" alt="Espace public de Guédiawaye" loading="lazy">
+                    <figcaption>Démarches municipales · Mairie de Guédiawaye</figcaption>
+                </figure>
+                <div class="card account-card">
                     <div class="card-body p-4 p-md-5">
-                        <span class="badge text-bg-success mb-2">Demande en ligne</span>
+                        <span class="section-eyebrow service-eyebrow-dark">Demande en ligne</span>
                         <h1 class="h2">Demander : {{ service.nom }}</h1>
                         <p class="text-muted">Renseignez vos coordonnées et expliquez votre demande. Les champs marqués comme obligatoires doivent être remplis.</p>
                         <form method="post" enctype="multipart/form-data" novalidate>

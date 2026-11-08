@@ -1,19 +1,58 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Accueil | Mairie de Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="hero-section py-5">
+<section class="hero-section hero-text-only py-5">
     <div class="container">
         <div class="row align-items-center g-4">
-            <div class="col-lg-12">
-                <span class="badge text-bg-success mb-3">Portail de la commune</span>
+            <div class="col-lg-8">
+                <span class="home-eyebrow">Portail de la commune</span>
                 <h1 class="display-5 fw-bold">Bienvenue à Guédiawaye</h1>
                 <p class="lead">Retrouvez les informations communales, explorez les services disponibles et découvrez les initiatives locales depuis un seul espace.</p>
                 <div class="d-flex gap-3 flex-wrap">
-                    <a class="btn btn-primary" href="/services/">Voir les services</a>
-                    <a class="btn btn-outline-primary" href="/contact/">Nous contacter</a>
+                    <a class="btn btn-primary btn-lg" href="{% url 'services:services_list' %}">Découvrir les services <span aria-hidden="true">→</span></a>
+                    <a class="btn btn-outline-primary btn-lg" href="{% url 'core:contact' %}">Contacter la mairie</a>
                 </div>
+            </div>
+            <div class="col-lg-4">
+                <figure class="home-hero-photo mb-0">
+                    <img src="{% static 'images/mairie.jpg' %}" alt="Espace public aménagé à Guédiawaye" fetchpriority="high">
+                    <figcaption>Guédiawaye · Une ville en mouvement</figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" aria-labelledby="decouvrir-guediawaye">
+    <div class="container">
+        <div class="row align-items-end g-3 mb-4">
+            <div class="col-lg-8">
+                <span class="section-eyebrow service-eyebrow-dark">Notre ville</span>
+                <h2 class="h2 mt-2 mb-0" id="decouvrir-guediawaye">Mieux connaître Guédiawaye</h2>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'core:page_institutionnelle' 'histoire' %}">Découvrir la commune <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <article class="info-card h-100 p-4">
+                    <span class="institutional-card-mark" aria-hidden="true">01</span>
+                    <h3 class="h4 mt-3">L’histoire de Guédiawaye</h3>
+                    <p class="text-muted">Quelques repères sur le développement de la ville et son organisation communale.</p>
+                    <a href="{% url 'core:page_institutionnelle' 'histoire' %}">Lire l’histoire <span aria-hidden="true">→</span></a>
+                </article>
+            </div>
+            <div class="col-md-6">
+                <article class="info-card h-100 p-4">
+                    <span class="institutional-card-mark" aria-hidden="true">02</span>
+                    <h3 class="h4 mt-3">À propos de la commune</h3>
+                    <p class="text-muted">Découvrez les cinq communes et les informations réunies sur ce portail municipal.</p>
+                    <a href="{% url 'core:page_institutionnelle' 'a-propos' %}">En savoir plus <span aria-hidden="true">→</span></a>
+                </article>
             </div>
         </div>
     </div>
@@ -23,10 +62,49 @@
     <div class="container">
         <h2 class="mb-4">Services rapides</h2>
         <div class="row g-4">
-            <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h3 class="h5">Démarches municipales</h3><p>Consultez les services référencés et vérifiez les documents utiles pour votre démarche.</p><a href="{% url 'services:services_list' %}">Parcourir les services &rarr;</a></div></div></div>
-            <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h3 class="h5">Tourisme et culture</h3><p>Parcourez les lieux et événements culturels publiés dans la rubrique tourisme.</p><a href="{% url 'tourisme:tourisme_list' %}">Découvrir la rubrique &rarr;</a></div></div></div>
-            <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h3 class="h5">Acteurs locaux</h3><p>Recherchez les entreprises, commerces et associations référencés dans l’annuaire.</p><a href="{% url 'annuaire:annuaire_list' %}">Consulter l’annuaire &rarr;</a></div></div></div>
+            <div class="col-md-4"><div class="card portal-card h-100"><div class="card-body"><h3 class="h5">Démarches municipales</h3><p>Consultez les services référencés et vérifiez les documents utiles pour votre démarche.</p><a href="{% url 'services:services_list' %}">Parcourir les services &rarr;</a></div></div></div>
+            <div class="col-md-4"><div class="card portal-card h-100"><div class="card-body"><h3 class="h5">Tourisme et culture</h3><p>Parcourez les lieux et événements culturels publiés dans la rubrique tourisme.</p><a href="{% url 'tourisme:tourisme_list' %}">Découvrir la rubrique &rarr;</a></div></div></div>
+            <div class="col-md-4"><div class="card portal-card h-100"><div class="card-body"><h3 class="h5">Acteurs locaux</h3><p>Recherchez les entreprises, commerces et associations référencés dans l’annuaire.</p><a href="{% url 'annuaire:annuaire_list' %}">Consulter l’annuaire &rarr;</a></div></div></div>
         </div>
+    </div>
+</section>
+
+<section class="py-5" aria-labelledby="latest-news-heading">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+            <div>
+                <span class="section-eyebrow service-eyebrow-dark">Restez informés</span>
+                <h2 class="h2 mt-2 mb-0" id="latest-news-heading">À la une de Guédiawaye</h2>
+            </div>
+            <a class="btn btn-outline-primary" href="{% url 'actualites:actualites_list' %}">Toutes les actualités <span aria-hidden="true">→</span></a>
+        </div>
+        {% if articles %}
+            <div class="row g-4">
+                {% for article in articles %}
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card news-card h-100">
+                            {% if article.image %}
+                                <img src="{{ article.image.url }}" class="home-news-image" alt="{{ article.titre }}" loading="lazy">
+                            {% else %}
+                                <img src="{% static 'images/mairie.jpg' %}" class="home-news-image" alt="" loading="lazy">
+                            {% endif %}
+                            <div class="card-body d-flex flex-column p-4">
+                                <p class="directory-sector mb-2">{{ article.get_categorie_display }}</p>
+                                <h3 class="h5">{{ article.titre }}</h3>
+                                <p class="text-muted">{{ article.contenu|truncatechars:130 }}</p>
+                                <a class="service-card-link mt-auto" href="{{ article.get_absolute_url }}">Lire l’article <span aria-hidden="true">→</span></a>
+                                <p class="small text-muted mt-3 mb-0">{% if article.date_publication %}Publié le {{ article.date_publication|date:"d/m/Y" }}{% else %}Publié récemment{% endif %}</p>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="home-news-empty">
+                <p class="mb-2"><strong>Aucune actualité publiée pour le moment.</strong></p>
+                <p class="mb-0 text-muted">Les annonces de la commune seront affichées ici dès leur publication.</p>
+            </div>
+        {% endif %}
     </div>
 </section>
 
@@ -48,21 +126,21 @@
     <div class="container">
         <div class="row g-4 align-items-start">
             <div class="col-lg-5">
-                <span class="badge text-bg-success mb-2">Votre commune au quotidien</span>
+                <span class="section-eyebrow service-eyebrow-dark">Votre commune au quotidien</span>
                 <h2>Les informations utiles, au même endroit</h2>
                 <p class="mb-0">Préparez vos démarches, suivez les actualités locales, découvrez les événements culturels et retrouvez les acteurs de proximité. Chaque rubrique rassemble les informations disponibles et est mise à jour au fil des publications.</p>
             </div>
             <div class="col-lg-7">
                 <div class="row g-3">
                     <div class="col-sm-6">
-                        <div class="h-100 p-4 bg-white border rounded">
+                        <div class="info-card h-100 p-4">
                             <h3 class="h5">Suivre la vie locale</h3>
                             <p>Consultez les annonces et les initiatives publiées par la commune.</p>
                             <a href="{% url 'actualites:actualites_list' %}">Lire les actualités &rarr;</a>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="h-100 p-4 bg-white border rounded">
+                        <div class="info-card h-100 p-4">
                             <h3 class="h5">Préparer une visite</h3>
                             <p>Retrouvez les lieux et les événements culturels annoncés.</p>
                             <a href="{% url 'tourisme:tourisme_list' %}">Voir tourisme et culture &rarr;</a>

@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ lieu.nom }} | Tourisme{% endblock %}
 
 {% block content %}
-<article class="py-5">
+<article class="py-5 editorial-page">
     <div class="container">
-        <a href="{% url 'tourisme:tourisme_list' %}" class="text-decoration-none">&larr; Tous les lieux</a>
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'tourisme:tourisme_list' %}">Tourisme et culture</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ lieu.nom }}</li>
+            </ol>
+        </nav>
         <div class="row justify-content-center mt-4">
-            <div class="col-lg-10">
+            <div class="col-lg-10 tourism-detail-content">
                 {% if lieu.photo %}
                     <div class="media-text-row mb-5">
                         <img src="{{ lieu.photo.url }}" class="media-text-image" alt="{{ lieu.nom }}">
                         <div class="media-text-content">
-                            <p class="text-success mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
+                            <p class="section-eyebrow service-eyebrow-dark mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
                             <h1>{{ lieu.nom }}</h1>
                             {% if lieu.adresse %}<p>{{ lieu.adresse }}</p>{% endif %}
                             <div class="fs-5">{{ lieu.description|linebreaks }}</div>
@@ -25,7 +32,11 @@
                         </div>
                     </div>
                 {% else %}
-                    <p class="text-success mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
+                    <figure class="editorial-cover mb-4">
+                        <img src="{% static 'images/SIMBE.jpg' %}" alt="" fetchpriority="high">
+                        <figcaption>Culture et patrimoine sénégalais</figcaption>
+                    </figure>
+                    <p class="section-eyebrow service-eyebrow-dark mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
                     <h1>{{ lieu.nom }}</h1>
                     {% if lieu.adresse %}<p>{{ lieu.adresse }}</p>{% endif %}
                     <div class="fs-5">{{ lieu.description|linebreaks }}</div>

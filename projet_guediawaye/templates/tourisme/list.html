@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Tourisme | Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
+<section class="page-hero page-hero-tourism">
     <div class="container">
-        <span class="badge text-bg-success mb-2">Découvrir la commune</span>
-        <h1>Tourisme et culture</h1>
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tourisme et culture</li>
+            </ol>
+        </nav>
+        <span class="section-eyebrow">Découvrir la commune</span>
+        <h1 class="display-5 fw-bold mt-2 mb-3">Tourisme et culture</h1>
         <p class="lead mb-0">Explorez les lieux, les initiatives culturelles et les événements publiés dans l’annuaire touristique.</p>
     </div>
 </section>
@@ -14,18 +21,20 @@
 <section class="py-5">
     <div class="container">
         <h2 class="h3 mb-4">Lieux à découvrir</h2>
-        <div class="row g-4 alternating-media-list">
+        <div class="row g-4">
             {% for lieu in lieux %}
-                <div class="col-12 media-text-item{% if lieu.photo %} has-media{% endif %}">
-                    <article class="card h-100 shadow-sm border-0">
+                <div class="col-md-6 col-xl-4">
+                    <article class="card news-card h-100">
                         {% if lieu.photo %}
-                            <img src="{{ lieu.photo.url }}" class="card-img-top media-text-image" alt="{{ lieu.nom }}">
+                            <img src="{{ lieu.photo.url }}" class="news-card-image" alt="{{ lieu.nom }}">
+                        {% else %}
+                            <img src="{% static 'images/mairie.jpg' %}" class="news-card-image" alt="" loading="lazy">
                         {% endif %}
                         <div class="card-body d-flex flex-column">
-                            <p class="text-success small mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
+                            <p class="directory-sector small mb-2">{{ lieu.get_categorie_display }} · {{ lieu.commune.nom }}</p>
                             <h3 class="h5">{{ lieu.nom }}</h3>
-                            <p>{{ lieu.description|truncatechars:180 }}</p>
-                            <a class="btn btn-outline-primary mt-auto align-self-start" href="{{ lieu.get_absolute_url }}">Découvrir ce lieu</a>
+                            <p class="text-muted">{{ lieu.description|truncatechars:150 }}</p>
+                            <a class="service-card-link mt-auto" href="{{ lieu.get_absolute_url }}">Découvrir ce lieu <span aria-hidden="true">→</span></a>
                         </div>
                     </article>
                 </div>
@@ -40,20 +49,32 @@
         </div>
         <section class="mt-5" aria-labelledby="evenements-a-venir">
             <h2 class="h3 mb-4" id="evenements-a-venir">Événements culturels à venir</h2>
-            <div class="row g-4 alternating-media-list">
+            <div class="row g-4">
                 {% for evenement in evenements %}
-                    <div class="col-12 media-text-item{% if evenement.image %} has-media{% endif %}">
-                        <article class="card h-100 shadow-sm border-0">
+                    <div class="col-md-6">
+                        <article class="card news-card h-100">
                             {% if evenement.image %}
-                                <img src="{{ evenement.image.url }}" class="card-img-top media-text-image" alt="{{ evenement.titre }}">
+                                <img src="{{ evenement.image.url }}" class="news-card-image" alt="{{ evenement.titre }}">
+                            {% else %}
+                                <img src="{% static 'images/SIMBE.jpg' %}" class="news-card-image" alt="" loading="lazy">
                             {% endif %}
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <h3 class="h5">{{ evenement.titre }}</h3>
-                                <p>{{ evenement.description|truncatechars:180 }}</p>
-                                <p class="small text-muted mb-0">
+                                <p class="text-muted">{{ evenement.description|truncatechars:150 }}</p>
+                                <p class="small text-muted mt-auto mb-0">
                                     Du {{ evenement.date_debut|date:"d/m/Y à H:i" }} au {{ evenement.date_fin|date:"d/m/Y à H:i" }}
                                     {% if evenement.lieu %}<br>Lieu : {{ evenement.lieu.nom }}{% endif %}
                                 </p>
+                                {% if evenement.photos.all %}
+                                    <div class="row g-2 mt-2" aria-label="Photos de {{ evenement.titre }}">
+                                        {% for photo in evenement.photos.all %}
+                                            <figure class="col-4 mb-0">
+                                                <img src="{{ photo.image.url }}" class="gallery-image rounded" alt="{{ photo.legende|default:evenement.titre }}">
+                                                {% if photo.legende %}<figcaption class="small text-muted mt-1">{{ photo.legende }}</figcaption>{% endif %}
+                                            </figure>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </article>
                     </div>

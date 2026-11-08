@@ -1,46 +1,126 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Annuaire | Guédiawaye{% endblock %}
+{% block title %}Annuaire local | Mairie de Guédiawaye{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
-    <div class="container">
-        <span class="badge text-bg-success mb-2">Acteurs locaux</span>
-        <h1>Annuaire local</h1>
-        <p class="lead mb-0">Retrouvez les entreprises, commerces, artisans, services et associations référencés dans la commune.</p>
+<section class="directory-hero page-hero-directory">
+    <div class="container py-5">
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Annuaire local</li>
+            </ol>
+        </nav>
+        <div class="row align-items-end g-4">
+            <div class="col-lg-8">
+                <span class="section-eyebrow">Économie locale et vie associative</span>
+                <h1 class="display-5 fw-bold mt-2 mb-3">L’annuaire de Guédiawaye</h1>
+                <p class="lead mb-0">Découvrez les commerces, artisans, entreprises et associations référencés dans les communes de Guédiawaye.</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="directory-count">
+                    <span class="directory-count-number">{{ total_organisations }}</span>
+                    <span>{% if total_organisations == 1 %}structure référencée{% else %}structures référencées{% endif %}</span>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="py-5">
+<section class="py-5" aria-labelledby="annuaire-heading">
     <div class="container">
-        <div class="row g-4 alternating-media-list">
-            {% for organisation in organisations %}
-                <div class="col-12 media-text-item{% if organisation.logo %} has-media{% endif %}">
-                    <article class="card h-100 shadow-sm border-0">
-                        {% if organisation.logo %}
-                            <img src="{{ organisation.logo.url }}" class="media-text-image media-text-logo" alt="Logo de {{ organisation.nom }}">
-                        {% endif %}
-                        <div class="card-body d-flex flex-column">
-                            <p class="text-success small mb-2">{{ organisation.get_secteur_display }} · {{ organisation.commune.nom }}</p>
-                            <h2 class="h5">{{ organisation.nom }}</h2>
-                            <p>{{ organisation.description|default:"Consultez la fiche pour retrouver les coordonnées et informations disponibles."|truncatechars:160 }}</p>
-                            <a class="btn btn-outline-primary mt-auto align-self-start" href="{{ organisation.get_absolute_url }}">Voir la fiche</a>
-                        </div>
-                    </article>
+        <form method="get" class="directory-filter p-3 p-md-4 mb-4" role="search">
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-5">
+                    <label class="form-label fw-semibold" for="directory-search">Que recherchez-vous ?</label>
+                    <input class="form-control form-control-lg" id="directory-search" type="search" name="q" value="{{ recherche }}" placeholder="Nom, activité ou adresse">
                 </div>
-            {% empty %}
-                <div class="col-12">
-                    <div class="alert alert-info" role="status">
-                        <h2 class="h5">L’annuaire se constitue</h2>
-                        <p class="mb-0">Les organisations apparaîtront ici après vérification. La fiche de chaque structure précisera les coordonnées qui auront été fournies.</p>
+                <div class="col-sm-6 col-lg-3">
+                    <label class="form-label fw-semibold" for="directory-sector">Secteur</label>
+                    <select class="form-select form-select-lg" id="directory-sector" name="secteur">
+                        <option value="">Tous les secteurs</option>
+                        {% for value, label in secteurs %}
+                            <option value="{{ value }}"{% if secteur_selectionne == value %} selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <label class="form-label fw-semibold" for="directory-commune">Commune</label>
+                    <select class="form-select form-select-lg" id="directory-commune" name="commune">
+                        <option value="">Toutes les communes</option>
+                        {% for commune in communes %}
+                            <option value="{{ commune.slug }}"{% if commune_selectionnee == commune.slug %} selected{% endif %}>{{ commune.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-2 d-grid">
+                    <button class="btn btn-primary btn-lg" type="submit">Rechercher</button>
+                </div>
+            </div>
+            {% if recherche or secteur_selectionne or commune_selectionnee %}
+                <div class="mt-3">
+                    <a href="{% url 'annuaire:annuaire_list' %}" class="small">Effacer les filtres</a>
+                </div>
+            {% endif %}
+        </form>
+
+        <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-4">
+            <h2 class="h3 mb-0" id="annuaire-heading">Les structures locales</h2>
+            <p class="text-muted mb-0" aria-live="polite">
+                {{ organisations|length }} résultat{{ organisations|length|pluralize }}
+            </p>
+        </div>
+
+        {% if organisations %}
+            <div class="row g-4">
+                {% for organisation in organisations %}
+                    <div class="col-md-6 col-xl-4">
+                        <article class="card directory-card h-100">
+                            <div class="card-body d-flex flex-column p-4">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    {% if organisation.logo %}
+                                        <img src="{{ organisation.logo.url }}" class="directory-logo" alt="Logo de {{ organisation.nom }}">
+                                    {% else %}
+                                        <img src="{% static 'images/commerce.jpg' %}" class="directory-logo directory-logo-fallback" alt="" loading="lazy">
+                                    {% endif %}
+                                    <span class="directory-sector">{{ organisation.get_secteur_display }}</span>
+                                </div>
+                                <h3 class="h5 mb-2">{{ organisation.nom }}</h3>
+                                <p class="directory-location mb-3">{{ organisation.commune.nom }}</p>
+                                <p class="text-muted mb-4">{{ organisation.description|default:"Consultez la fiche pour découvrir les informations disponibles sur cette structure."|truncatechars:145 }}</p>
+                                <a class="btn btn-outline-primary mt-auto align-self-start" href="{{ organisation.get_absolute_url }}">Découvrir la fiche <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+                        </article>
                     </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="directory-empty text-center py-5 px-3">
+                <span class="directory-empty-mark" aria-hidden="true">⌕</span>
+                {% if recherche or secteur_selectionne or commune_selectionnee %}
+                    <h3 class="h4">Aucun résultat pour cette recherche</h3>
+                    <p class="text-muted mb-4">Essayez d’autres termes ou retirez un ou plusieurs filtres.</p>
+                    <a class="btn btn-outline-primary" href="{% url 'annuaire:annuaire_list' %}">Afficher tout l’annuaire</a>
+                {% else %}
+                    <h3 class="h4">L’annuaire se constitue</h3>
+                    <p class="text-muted mb-0">Les structures seront publiées après validation par la mairie.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <aside class="directory-note mt-5 p-4 p-md-5" aria-labelledby="directory-note-heading">
+            <div class="row align-items-center g-3">
+                <div class="col-lg-8">
+                    <span class="section-eyebrow">Une information à mettre à jour ?</span>
+                    <h2 class="h4 mt-2 mb-2" id="directory-note-heading">Aidez-nous à garder l’annuaire utile</h2>
+                    <p class="mb-0 text-muted">Pour signaler une correction ou poser une question, contactez les services de la mairie.</p>
                 </div>
-            {% endfor %}
-        </div>
-        <div class="row g-4 mt-2">
-            <div class="col-md-6"><div class="p-4 h-100 border rounded"><h2 class="h5">Trouver un professionnel local</h2><p class="mb-0">Les fiches publiées indiquent le secteur, l’adresse et les moyens de contact renseignés par chaque organisation.</p></div></div>
-            <div class="col-md-6"><div class="p-4 h-100 border rounded"><h2 class="h5">Une information à corriger ?</h2><p class="mb-0">Signalez une question ou une modification souhaitée à partir de la page <a href="{% url 'core:contact' %}">Contact</a>.</p></div></div>
-        </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a class="btn btn-primary" href="{% url 'core:contact' %}">Contacter la mairie</a>
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
 {% endblock %}

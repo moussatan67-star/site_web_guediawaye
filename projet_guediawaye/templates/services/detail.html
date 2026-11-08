@@ -1,20 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}{{ service.nom }} | Services{% endblock %}
+{% block title %}{{ service.nom }} | Services municipaux{% endblock %}
 
 {% block content %}
+<section class="service-detail-hero">
+    <div class="container py-4 py-lg-5">
+        <nav aria-label="Fil d’Ariane" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'services:services_list' %}">Services municipaux</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ service.nom }}</li>
+            </ol>
+        </nav>
+        <div class="row align-items-end g-4">
+            <div class="col-lg-8">
+                <span class="section-eyebrow">Fiche du service municipal</span>
+                <h1 class="display-5 fw-bold mt-2 mb-3">{{ service.nom }}</h1>
+                <p class="lead mb-0">{{ service.description }}</p>
+            </div>
+            <div class="col-lg-4">
+                <a class="btn btn-primary btn-lg w-100" href="{% url 'services:service_demande' service.slug %}">Faire une demande <span aria-hidden="true">→</span></a>
+                <p class="service-detail-caption mt-2 mb-0">Les modalités seront précisées par le service compétent.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <a href="{% url 'services:services_list' %}" class="text-decoration-none">&larr; Tous les services</a>
-        <div class="row justify-content-center mt-4">
-            <div class="col-lg-9">
-                <span class="badge text-bg-success mb-2">Service municipal</span>
-                <h1>{{ service.nom }}</h1>
-                <div class="lead">{{ service.description|linebreaks }}</div>
-                <a class="btn btn-primary mt-3" href="{% url 'services:service_demande' service.slug %}">Demander ce service</a>
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-8">
+                {% if not service.photos.all %}
+                    {% if service.illustration.image %}
+                        <figure class="service-detail-photo mb-4">
+                            <img src="{% static service.illustration.image %}" alt="{{ service.illustration.alt }}" loading="lazy">
+                            <figcaption>{{ service.illustration.caption }}</figcaption>
+                        </figure>
+                    {% else %}
+                        <div class="service-detail-photo service-detail-photo-placeholder mb-4" aria-hidden="true"></div>
+                    {% endif %}
+                {% endif %}
                 {% if service.photos.all %}
-                    <section class="mt-4" aria-labelledby="galerie-service">
-                        <h2 class="h3 mb-3" id="galerie-service">En images</h2>
+                    <section class="mb-5" aria-labelledby="galerie-service">
+                        <h2 class="h3 mb-3" id="galerie-service">Le service en images</h2>
                         <div class="row g-3">
                             {% for photo in service.photos.all %}
                                 <figure class="col-sm-6 col-lg-4 mb-0">
@@ -25,22 +54,40 @@
                         </div>
                     </section>
                 {% endif %}
-                <div class="card shadow-sm border-0 mt-4">
-                    <div class="card-body p-4">
-                        <h2 class="h4">Documents à préparer</h2>
-                        {% if service.documents_requis %}
-                            <ul class="mb-0">
-                                {% for document in service.documents_requis %}<li>{{ document }}</li>{% endfor %}
-                            </ul>
-                        {% else %}
+
+                <section class="service-documents" aria-labelledby="documents-heading">
+                    <span class="section-eyebrow service-eyebrow-dark">Avant de commencer</span>
+                    <h2 class="h3 mt-2 mb-3" id="documents-heading">Documents à préparer</h2>
+                    {% if service.documents_requis %}
+                        <p class="text-muted">Préparez les pièces mentionnées ci-dessous. En cas de doute, confirmez la liste auprès du service.</p>
+                        <ul class="service-document-list mb-0">
+                            {% for document in service.documents_requis %}<li>{{ document }}</li>{% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="service-info-notice" role="note">
+                            <span class="service-info-icon" aria-hidden="true">i</span>
                             <p class="mb-0">La liste des pièces n’a pas encore été précisée. Vérifiez les documents nécessaires auprès du service avant de constituer votre dossier.</p>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="alert alert-light border mt-4">
-                    <h2 class="h5">Besoin d’une précision ?</h2>
-                    <p class="mb-0">Consultez la page <a href="{% url 'core:contact' %}">Contact</a> ou revenez au <a href="{% url 'services:services_list' %}">catalogue des services</a>.</p>
-                </div>
+                        </div>
+                    {% endif %}
+                </section>
+
+                <aside class="service-contact-note mt-4">
+                    <h2 class="h5">Besoin d’un renseignement ?</h2>
+                    <p class="mb-3">La mairie peut vous orienter et vous aider à confirmer les étapes de votre démarche.</p>
+                    <a href="{% url 'core:contact' %}">Consulter les informations de contact <span aria-hidden="true">→</span></a>
+                </aside>
+            </div>
+
+            <div class="col-lg-4">
+                <aside class="service-action-card">
+                    <span class="section-eyebrow service-eyebrow-dark">Votre prochaine étape</span>
+                    <h2 class="h4 mt-2">Effectuer une demande</h2>
+                    <p class="text-muted">Transmettez votre demande à la mairie. Les informations communiquées permettront d’orienter son traitement.</p>
+                    <a class="btn btn-primary w-100" href="{% url 'services:service_demande' service.slug %}">Accéder au formulaire</a>
+                    <hr>
+                    <p class="small text-muted mb-0">Avant l’envoi, assurez-vous que vos coordonnées sont exactes. Les délais et pièces nécessaires sont à confirmer auprès du service.</p>
+                </aside>
+                <a class="service-back-link d-inline-block mt-3" href="{% url 'services:services_list' %}">&larr; Retour à tous les services</a>
             </div>
         </div>
     </div>

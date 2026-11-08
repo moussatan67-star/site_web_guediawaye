@@ -2,23 +2,31 @@
 <header class="site-header">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light py-3">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand site-brand" href="{% url 'core:home' %}" aria-label="Mairie de Guédiawaye, accueil">
+                <img src="{% static 'images/logo.jpg' %}" alt="">
+                <span class="site-brand-copy"><strong>Guédiawaye</strong><small>Portail de la mairie</small></span>
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Ouvrir le menu de navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/actualites/">Actualités</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/services/">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/tourisme/">Tourisme</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/annuaire/">Annuaire</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link"{% if request.resolver_match.namespace == "core" and request.resolver_match.url_name == "home" %} aria-current="page"{% endif %} href="{% url 'core:home' %}">Accueil</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"{% if request.resolver_match.url_name == "page_institutionnelle" %} aria-current="page"{% endif %} href="#" id="communeMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">La commune</a>
+                        <ul class="dropdown-menu" aria-labelledby="communeMenu">
+                            <li><a class="dropdown-item" href="{% url 'core:page_institutionnelle' 'histoire' %}">Histoire de Guédiawaye</a></li>
+                            <li><a class="dropdown-item" href="{% url 'core:page_institutionnelle' 'a-propos' %}">À propos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"{% if request.resolver_match.namespace == "actualites" %} aria-current="page"{% endif %} href="{% url 'actualites:actualites_list' %}">Actualités</a></li>
+                    <li class="nav-item"><a class="nav-link"{% if request.resolver_match.namespace == "services" %} aria-current="page"{% endif %} href="{% url 'services:services_list' %}">Services</a></li>
+                    <li class="nav-item"><a class="nav-link"{% if request.resolver_match.namespace == "tourisme" %} aria-current="page"{% endif %} href="{% url 'tourisme:tourisme_list' %}">Tourisme</a></li>
+                    <li class="nav-item"><a class="nav-link"{% if request.resolver_match.namespace == "annuaire" %} aria-current="page"{% endif %} href="{% url 'annuaire:annuaire_list' %}">Annuaire</a></li>
+                    <li class="nav-item"><a class="nav-link"{% if request.resolver_match.namespace == "core" and request.resolver_match.url_name == "contact" %} aria-current="page"{% endif %} href="{% url 'core:contact' %}">Contact</a></li>
                 </ul>
-                <a class="btn btn-primary" href="/comptes/login/">Espace citoyen</a>
+                <a class="btn btn-primary site-header-action" href="{% url 'accounts:login' %}">Espace citoyen <span aria-hidden="true">→</span></a>
             </div>
-            <a class="navbar-brand site-brand ms-lg-3" href="/" aria-label="Guédiawaye, accueil">
-                <img src="{% static 'images/logo.jpg' %}" alt="Ville de Guédiawaye">
-            </a>
         </nav>
     </div>
 </header>

@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ article.titre }} | Actualités{% endblock %}
 
 {% block content %}
-<article class="py-5">
+<article class="py-5 editorial-page">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-9">
-                <a href="{% url 'actualites:actualites_list' %}" class="text-decoration-none">&larr; Toutes les actualités</a>
-                <p class="text-success mt-4 mb-2">{{ article.get_categorie_display }}</p>
+                <nav aria-label="Fil d’Ariane" class="mb-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'actualites:actualites_list' %}">Actualités</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ article.titre }}</li>
+                    </ol>
+                </nav>
+                <p class="section-eyebrow service-eyebrow-dark mt-4 mb-2">{{ article.get_categorie_display }}</p>
                 <h1 class="mb-3">{{ article.titre }}</h1>
                 <p class="text-muted">
                     {% if article.date_publication %}Publié le {{ article.date_publication|date:"d/m/Y" }}{% endif %}
@@ -20,6 +27,10 @@
                         <div class="fs-5 media-text-content">{{ article.contenu|linebreaks }}</div>
                     </div>
                 {% else %}
+                    <figure class="editorial-cover mb-4">
+                        <img src="{% static 'images/mairie.jpg' %}" alt="" fetchpriority="high">
+                        <figcaption>Actualités de la commune</figcaption>
+                    </figure>
                     <div class="fs-5">{{ article.contenu|linebreaks }}</div>
                 {% endif %}
                 {% if article.photos.all %}
