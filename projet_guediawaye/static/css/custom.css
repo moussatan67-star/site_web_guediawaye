@@ -112,6 +112,9 @@ table {
 }
 
 .hero-section {
+  min-height: clamp(32rem, 75vh, 50rem);
+  display: flex;
+  align-items: center;
   background:
     linear-gradient(110deg, rgba(8, 50, 27, 0.88), rgba(11, 31, 18, 0.62)),
     url("../images/mairie.jpg") center 55% / cover no-repeat;
